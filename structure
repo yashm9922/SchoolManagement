@@ -1,0 +1,46 @@
+Project Structure:
+
+Technologies:
+Javascript Libraries->
+Backend:MongoDB,Express js, Node js
+Fontend:Vite js, Tailwind CSS
+
+Backend Structure
+
+server/
+│
+├── controllers/
+│   ├── studentController.js
+│   └── teacherController.js
+│   └── classController.js
+│
+├── models/
+│   ├── studentModel.js~
+│   └── teacherModel.js
+│   └── classController.js
+│
+├── routes/
+│   ├── studentRoutes.js
+│   └── teacherRoutes.js
+│   └── classController.js
+│
+└── index.js
+
+
+Completed Things :
+1. backend apis
+2. mongodb setup
+3. front end tables
+
+-----------------------**********************************-----------------------------
+apis => 
+--------------------------------------------------------------------------------------
+student ->
+--------------------------------------------------------------------------------------
+create    -- http://localhost:3000/api/student/create
+delete    -- http://localhost:3000/api/student/delete/6631278e749151eb4561779f
+update    -- http://localhost:3000/api/student/update/6631278e749151eb4561779f
+get       -- http://localhost:3000/api/student/shubham%20Jadhav
+getAll    -- http://localhost:3000/api/student/getall
+deleteAll -- http://localhost:3000/api/student/deleteall
+--------------------------------------------------------------------------------------
