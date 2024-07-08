@@ -13,7 +13,8 @@ function App() {
       <Routes>
         <Route path='/' element={<StudentTable />} />
         <Route path='/addstudent' element={<StudentForm />}></Route>
-        <Route path='/updatestudent' element={  <StudentUdForm />}></Route>
+        <Route path='/updatestudent/:id' element={<StudentUdForm />}></Route>
+        {/* pass the :id as it is going to get the id from the table and get the data from database  */}
       </Routes>
     </>
   )

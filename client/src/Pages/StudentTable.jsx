@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const StudentTable = () => {
 
     const [input, setinput] = useState([])
     const [deletedID, setDeletedID] = useState(null)
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
-
     
     useEffect(() => {
         const fecthdata = async () => {
@@ -22,7 +22,6 @@ const StudentTable = () => {
     }, [deletedID])
     //here deleted id is passed to re-fetch with deleted id 
 
-
     const handleDelete = async (id) => {
         try {
             await instance.delete(`delete/${id}`)
@@ -31,8 +30,8 @@ const StudentTable = () => {
             console.log("Error Deleting Data", error)
         }
     }
-
-    
+    const handleUpdate = async (id) =>{    
+    }
 
     return (
         <div className="flex justify-center pt-10">
@@ -65,7 +64,6 @@ const StudentTable = () => {
                         </th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {
                         input.map((data, index) => (
@@ -93,18 +91,14 @@ const StudentTable = () => {
                                 </td>
                                 <td className="px-6 py-4">
                                     <button type="button" onClick={() => handleDelete(data._id)} className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Delete</button>
-                                    <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update</button>
+                                    <Link to={"updatestudent/" + data._id} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"  >Update</Link>
                                 </td>
                             </tr>
                         ))
                     }
-
-
                 </tbody>
-
             </table>
         </div>
-
     )
 }
 

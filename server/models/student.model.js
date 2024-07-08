@@ -11,18 +11,15 @@ const StudentSchema = new mongoose.Schema(
             required: true,
         },
         DOB: {
-            type: Date,
-            default: Date.now()
+            type: String,
         },
         contact: {
             type: Number,
             required: true,
-            default: 0
         },
         fees_paid: {
             type: Number,
             required: true,
-            default: 0
         },
 
         class: {

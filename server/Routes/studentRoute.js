@@ -3,13 +3,13 @@ const router = express.Router()
 const studentCntrl = require("../Controllers/studentController")
 
 
-router.get("/getall", studentCntrl.getallstudents)
-router.post("/create", studentCntrl.createstudent)
-router.get("/:name", studentCntrl.getonestudent)
-router.delete("/delete/:id", studentCntrl.deletestudent)
-router.delete("/deleteall", studentCntrl.deleteallstudent)
-router.put("/update/:id",studentCntrl.updatestudent)
-router.get("/name/:id",studentCntrl.getonestudentbyid)
+router.get("/getall", studentCntrl.getallstudents) //getting all the students
+router.get("/getbyid/:id",studentCntrl.getonestudentbyid) // getting student by id
+router.get("/getbyname/:name", studentCntrl.getonestudent) // getting student by name
+router.post("/create", studentCntrl.createstudent) // adding/creating student 
+router.delete("/delete/:id", studentCntrl.deletestudent) // delete student by id
+router.delete("/deleteall", studentCntrl.deleteallstudent) // delete all studnet
+router.put("/update/:id",studentCntrl.updatestudent) // update student id
 
 
 module.exports = router;
