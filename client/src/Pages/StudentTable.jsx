@@ -32,6 +32,8 @@ const StudentTable = () => {
         }
     }
 
+    
+
     return (
         <div className="flex justify-center pt-10">
             <table className="text-sm border rounded-sm">

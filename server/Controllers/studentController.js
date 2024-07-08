@@ -39,6 +39,18 @@ exports.getonestudent = async (req, res) => {
     }
 }
 
+//api to get one student by name
+exports.getonestudentbyid = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const student = await Student.findById(id);
+        if (!student) return res.status(404).send("User not Found")
+        res.send(student)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 // api to delete student by id
 exports.deletestudent = async (req, res) => {
     try {
@@ -58,7 +70,7 @@ exports.deletestudent = async (req, res) => {
 exports.deleteallstudent = async (req, res) => {
     try {
         const deleteallstudent = await Student.deleteMany({})
-        res.json({ message: 'All Students deleted successfully'});
+        res.json({ message: 'All Students deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -76,5 +88,6 @@ exports.updatestudent = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ message: error.message })
+        console.log("Unable to update student data")
     }
 }
