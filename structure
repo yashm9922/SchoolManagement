@@ -48,3 +48,13 @@ deleteAll -- http://localhost:3000/api/student/deleteall
 
 
 Update Form 
+
+adding student
+{
+    "name": "Yashwant Madane",
+    "gender":"Male",
+    "dob":"2024-07-06T00:00:00.000+00:00",
+    "contact":987345763,
+    "feesPaid":"345",
+    "classname":"D"
+}

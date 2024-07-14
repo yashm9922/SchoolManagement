@@ -1,45 +1,47 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const StudentForm = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        gender: '',
-        dob: '',
-        contact: '',
-        feesPaid: '',
-        class: ''
-    })
+    const [formData, setFormData] = useState([])
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.id]: e.target.value
-        })
-    }
+    const [name, setName] = useState('')
+    const [gender, setGender] = useState('')
+    const [dob, setDob] = useState('')
+    const [contact, setContact] = useState('')
+    const [feesPaid, setFeespaid] = useState('')
+    const [classname, setClassname] = useState('')
+    //may be cant use class and setClass usestate names here
+    
+    const navigate = useNavigate();
+
+    const [updatingstudent, setUpdatingStudent] = useState(null)
+
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const response = await axios.post('http://localhost:3000/api/student/create', {
-                name: formData.name,
-                gender: formData.gender,
-                DOB: formData.dob,
-                contact: formData.contact,
-                fees_paid: formData.feesPaid,
-                class: formData.class
+
+        if (updatingstudent) {
+            await axios.post(`http://localhost:3000/api/student/getbyid/${updatingstudent.id}`, {
+                name, gender, dob, contact, feesPaid, classname
             })
-            console.log(response.data)
-            setFormData({
-                name: '',
-                gender: '',
-                dob: '',
-                contact: '',
-                feesPaid: '',
-                class: ''
-            })
-        } catch (error) {
-            console.error('Error submitting form:', error);
+        }
+        
+        else {
+            e.preventDefault()
+            try {
+                await axios.post('http://localhost:3000/api/student/create', {
+                    name, gender, dob, contact, feesPaid, classname
+                })
+                setName('');
+                setGender('');
+                setDob('');
+                setContact('');
+                setFeespaid('');
+                setClassname('');
+                navigate('/');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
         }
     }
 
@@ -49,11 +51,16 @@ const StudentForm = () => {
                 <h1 className="text-2xl font-bold pt-5 mb-4">Student Information Form</h1>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
-                    <input onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name" value={formData.name} />
+                    <input
+                        onChange={(e) => setName(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name"
+                        value={name}
+                    />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender</label>
-                    <select onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gender" value={formData.gender}>
+                    <select
+                        onChange={(e) => setGender(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gender"
+                        value={gender}>
                         <option value="">Select Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -62,19 +69,31 @@ const StudentForm = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dob">Date of Birth</label>
-                    <input onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dob" type="date" value={formData.dob} />
+                    <input
+                        onChange={(e) => setDob(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dob" type="date"
+                        value={dob}
+                    />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contact">Contact Details</label>
-                    <input onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contact" type="text" placeholder="Contact Details" value={formData.contact} />
+                    <input
+                        onChange={(e) => setContact(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contact" type="text" placeholder="Contact Details"
+                        value={contact}
+                    />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="feesPaid">Fees Paid</label>
-                    <input onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="feesPaid" type="number" placeholder="Fees Paid" value={formData.feesPaid} />
+                    <input
+                        onChange={(e) => setFeespaid(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="feesPaid" type="number" placeholder="Fees Paid"
+                        value={feesPaid}
+                    />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">Class</label>
-                    <input onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="class" type="text" placeholder="Class" value={formData.class} />
+                    <input
+                        onChange={(e) => setClassname(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="class" type="text" placeholder="Class"
+                        value={classname}
+                    />
                 </div>
                 <div className="flex items-center justify-between">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit</button>

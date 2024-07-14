@@ -4,36 +4,27 @@ import { useParams } from 'react-router-dom'
 
 const StudentUdForm = () => {
     const { id } = useParams();
-    const [formData, setFormData] = useState({
-        name: '',
-        gender: '',
-        dob: '',
-        contact: '',
-        feesPaid: '',
-        class: ''
-    })
+    const [formData, setFormData] = useState([])
+ 
+    // gender = formData.gender
 
     const handleChange = (e) => {
         setFormData({
-            ...formData,[e.target.id]: e.target.value
+            ...formData, [e.target.id]: e.target.value
         })
     }
-    
-    useEffect(() => {
-        const getStudentById = async (e) => {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/student/getbyid/${id}`)
-                setFormData(response.data);    
-                console.log(response.data.feesPaid)
 
+    useEffect(() => {
+        const getStudentById = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/api/student/getbyid/${id}`);
+                setFormData(response.data)
             } catch (error) {
                 console.error("There was an error fetching the student data!", error);
             }
         };
-
-        getStudentById()
-
-    }, [id])
+        getStudentById();
+    }, [id]);
 
     return (
         <div className="container flex justify-center mx-auto py-8 text-left">
@@ -41,7 +32,7 @@ const StudentUdForm = () => {
                 <h1 className="text-2xl text-gray-700 font-bold pt-5 mb-4">Student Update Information Form</h1>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
-                    <input onChange={handleChange} value={formData.name} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name" />
+                    <input onChange={handleChange} value={name} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name" />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender</label>
@@ -54,18 +45,17 @@ const StudentUdForm = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dob">Date of Birth</label>
-                    <input onChange={handleChange} value={formData.dob} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dob" type="date" />                </div>
+                    <input onChange={handleChange} value={formData.dob} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dob" type="date" />
+                </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contact">Contact Details</label>
                     <input onChange={handleChange} value={formData.contact} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contact" type="text" placeholder="Contact Details" />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="feesPaid">Fees Paid</label>
-                    <input onChange={handleChange} value={formData.feesPaid} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="feesPaid" type="number" placeholder="Fees Paid" />
+                    <input onChange={handleChange} value={formData.feesPaid} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="feesPaid" type="text" placeholder="Fees Paid" />
                 </div>
-                <div>
-                   <p>{formData.feesPaid}</p>
-                </div>
+
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">Class</label>
                     <input onChange={handleChange} value={formData.class} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="class" type="text" placeholder="Class" />

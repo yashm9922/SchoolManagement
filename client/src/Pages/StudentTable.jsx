@@ -4,24 +4,23 @@ import { Link } from 'react-router-dom'
 
 const StudentTable = () => {
 
-    const [input, setinput] = useState([])
+    const [input, setInput] = useState([])
     const [deletedID, setDeletedID] = useState(null)
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
-    
+
     useEffect(() => {
         const fecthdata = async () => {
             try {
                 const response = await instance.get('getall')
-                setinput(response.data);
+                setInput(response.data);
             }
             catch (error) {
-                console.log("Error Fetching Dta", error)
+                console.log("Error Fetching Data", error)
             }
         };
         fecthdata();
     }, [deletedID])
     //here deleted id is passed to re-fetch with deleted id 
-
     const handleDelete = async (id) => {
         try {
             await instance.delete(`delete/${id}`)
@@ -30,7 +29,7 @@ const StudentTable = () => {
             console.log("Error Deleting Data", error)
         }
     }
-    const handleUpdate = async (id) =>{    
+    const handleUpdate = async (id) => {
     }
 
     return (
@@ -78,16 +77,16 @@ const StudentTable = () => {
                                     {data.gender}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {data.DOB}
+                                {new Date(data.dob).toLocaleDateString()}
                                 </td>
                                 <td className="px-6 py-4">
                                     {data.contact}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {data.fees_paid}
+                                    {data.feesPaid}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {data.class}
+                                    {data.classname}
                                 </td>
                                 <td className="px-6 py-4">
                                     <button type="button" onClick={() => handleDelete(data._id)} className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Delete</button>

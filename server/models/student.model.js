@@ -10,19 +10,19 @@ const StudentSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        DOB: {
-            type: String,
+        dob: {
+            type: Date,
         },
         contact: {
             type: Number,
             required: true,
         },
-        fees_paid: {
+        feesPaid: {
             type: Number,
             required: true,
         },
 
-        class: {
+        classname: {
             type: String,
             required: true,
         }
