@@ -24,13 +24,11 @@ exports.getallstudents = async (req, res) => {
     }
 }
 
-
-
 //api to get one student by name
 exports.getonestudent = async (req, res) => {
     const name = req.params.name;
     try {
-        const student = await Student.findOne({ name })
+        const student = await Student.find(req.query)
         if (!student) return res.status(404).send("User not found")
         res.send(student)
     } catch (error) {
