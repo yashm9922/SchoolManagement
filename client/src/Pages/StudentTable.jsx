@@ -1,11 +1,15 @@
 import { React, useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import StudentUdForm from './StudentUdForm'
 
 const StudentTable = () => {
 
     const [input, setInput] = useState([])
+    const [updatingStudent, setUpdatingStudent] = useState(null)
+
     const [deletedID, setDeletedID] = useState(null)
+    const navigate = useNavigate();
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
 
     useEffect(() => {
@@ -18,7 +22,9 @@ const StudentTable = () => {
                 console.log("Error Fetching Data", error)
             }
         };
+
         fecthdata();
+        
     }, [deletedID])
     //here deleted id is passed to re-fetch with deleted id 
     const handleDelete = async (id) => {
@@ -29,76 +35,83 @@ const StudentTable = () => {
             console.log("Error Deleting Data", error)
         }
     }
-    const handleUpdate = async (id) => {
+    const handleUpdate = async (student) => {
+        setUpdatingStudent(null);
     }
 
     return (
-        <div className="flex justify-center pt-10">
-            <table className="text-sm border rounded-sm">
-                <thead className="text-xs border text-gray-700 uppercase  dark:text-gray-400">
-                    <tr>
-                        <th scope="col" className="px-6 py-3">
-                            Sr.No
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Name
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Gender
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            D.O.B
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Contact
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Fees_paid
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Class
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        input.map((data, index) => (
-                            <tr className=" dark:border-gray-700" key={data._id}>
-                                <td className="px-6 py-4">
-                                    {index + 1}
-                                </td>
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {data.name}
-                                </th>
-                                <td className="px-6 py-4">
-                                    {data.gender}
-                                </td>
-                                <td className="px-6 py-4">
-                                {new Date(data.dob).toLocaleDateString()}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {data.contact}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {data.feesPaid}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {data.classname}
-                                </td>
-                                <td className="px-6 py-4">
-                                    <button type="button" onClick={() => handleDelete(data._id)} className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Delete</button>
-                                    <Link to={"updatestudent/" + data._id} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"  >Update</Link>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+        <div className='pt-5'>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit"><Link to="/addstudent">  Create Student </Link></button>
+            <div className="flex justify-center pt-5">
+
+                <table className="text-sm border rounded-sm">
+                    <thead className="text-xs border text-gray-700 uppercase  dark:text-gray-400">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Sr.No
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Name
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Gender
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                D.O.B
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Contact
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Fees_paid
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Class
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            input.map((data, index) => (
+                                <tr className=" dark:border-gray-700" key={data._id}>
+                                    <td className="px-6 py-4">
+                                        {index + 1}
+                                    </td>
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {data.name}
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        {data.gender}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {new Date(data.dob).toLocaleDateString()}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {data.contact}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {data.feesPaid}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {data.classname}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <button onClick={() => setUpdatingStudent(data) } type="button" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Delete</button>
+                                        <Link onClick={() => handleUpdate(data._id)} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"  >Update</Link>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+                {updatingStudent && <StudentUdForm student={updatingStudent} onStudentUpdated={handleUpdate} />}
+            </div>
         </div>
     )
 }
 
 export default StudentTable
+
