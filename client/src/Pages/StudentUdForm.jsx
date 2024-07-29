@@ -37,13 +37,13 @@ const StudentUdForm = () => {
         };
         getStudentById();
     }, [id]);
-    console.log(`Updated birthdate: ${formData.dob}`);
+    // console.log(`Updated birthdate: ${formData.dob}`);
 
     const handleUpdate = async (e) => {
         e.preventDefault()
         try {
             await axios.put(`http://localhost:3000/api/student/update/${id}`,formData)
-            console.log(formData)
+            // console.log(formData)
             navigate('/');
         } catch (error) {
             console.log("There was an error updating student",error);
@@ -69,7 +69,7 @@ const StudentUdForm = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dob">Date of Birth</label>
-                    <input onChange={handleChange} value={date} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dob" type="date" />
+                    <input onChange={handleChange} value={formData.dob} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dob" type="date" />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contact">Contact Details</label>

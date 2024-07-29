@@ -6,7 +6,7 @@ import StudentUdForm from './StudentUdForm'
 const StudentTable = () => {
 
     const [input, setInput] = useState([])
-    const [name, setName] = useState('')
+    const [search, setSearch] = useState('')
     const [deletedID, setDeletedID] = useState(null)
     const navigate = useNavigate();
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
@@ -23,7 +23,7 @@ const StudentTable = () => {
         };
 
         fecthdata();
-        
+
     }, [deletedID])
     //here deleted id is passed to re-fetch with deleted id 
 
@@ -36,9 +36,13 @@ const StudentTable = () => {
         }
     }
 
-    const handleSearch = () => {
-        const fetchStudent = instance.get(`getbyname/${name}`)
-    }
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
+    
+    const filteredStudents = input.filter(student =>
+        student.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <div>
@@ -52,8 +56,9 @@ const StudentTable = () => {
                         className="shadow appearance-none border rounded w-80 py-2 pl-10 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
                         type="text"
-                        value={name}
+                        value={search}
                         placeholder="search by name / id / ph. number"
+                        onChange={handleSearch}
                     />
                 </form>
 
@@ -90,7 +95,7 @@ const StudentTable = () => {
                     </thead>
                     <tbody>
                         {
-                            input.map((data, index) => (
+                            filteredStudents.map((data, index) => (
                                 <tr className=" dark:border-gray-700" key={data._id}>
                                     <td className="px-6 py-4">
                                         {index + 1}

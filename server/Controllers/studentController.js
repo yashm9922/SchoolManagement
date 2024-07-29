@@ -16,7 +16,7 @@ exports.createstudent = async (req, res) => {
 //api to get all students
 exports.getallstudents = async (req, res) => {
     try {
-        const all_students = await Student.find()
+        const all_students = await Student.find(req.query)
         res.send(all_students)
     } catch (error) {
         res.status(500).json({ message: error.message })

@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "assignment for aican",
-  "main": "index2.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index2.js"
+    "start": "nodemon index.js"
   },
   "author": "yashwant madane",
   "license": "ISC",
