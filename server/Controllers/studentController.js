@@ -15,13 +15,13 @@ exports.createstudent = async (req, res) => {
 
 //api to get all students
 exports.getallstudents = async (req, res) => {
-    try {
-        const all_students = await Student.find(req.query)
-        res.send(all_students)
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-
+    const { gender } = req.query;
+    const queryObject = {};
+    if (gender) {
+        queryObject.name = { $regex: gender, $options: 'i' }
     }
+    const all_students = await Student.find(queryObject);
+    res.status(200).json(all_students); // Consistent JSON response
 }
 
 //api to get one student by name
