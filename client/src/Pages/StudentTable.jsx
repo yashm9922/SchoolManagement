@@ -6,24 +6,21 @@ import StudentUdForm from './StudentUdForm'
 const StudentTable = () => {
 
     const [input, setInput] = useState([])
-    const [search, setSearch] = useState('')
     const [deletedID, setDeletedID] = useState(null)
     const navigate = useNavigate();
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
 
+    const fecthdata = async () => {
+        try {
+            const response = await instance.get('getall')
+            setInput(response.data);
+        }
+        catch (error) {
+            console.log("Error Fetching Data", error)
+        }
+    };
     useEffect(() => {
-        const fecthdata = async () => {
-            try {
-                const response = await instance.get('getall')
-                setInput(response.data);
-            }
-            catch (error) {
-                console.log("Error Fetching Data", error)
-            }
-        };
-
         fecthdata();
-
     }, [deletedID])
     //here deleted id is passed to re-fetch with deleted id 
 
@@ -36,13 +33,28 @@ const StudentTable = () => {
         }
     }
 
-    const handleSearch = (e) => {
-        setSearch(e.target.value);
+    const handleSearch = async (e) => {
+        try {
+            let key = e.target.value;
+            if (key) {
+
+                const response = await instance.get(`get/${key}`);
+                let searchObj = response.data;
+                if (searchObj) {
+                    setInput(searchObj);
+                }
+            } else {
+                fecthdata();
+            }
+        } catch (error) {
+            console.log("error searching data", error);
+        }
     };
-    
-    const filteredStudents = input.filter(student =>
-        student.name.toLowerCase().includes(search.toLowerCase())
-    );
+
+
+    // const filteredStudents = input.filter(student =>
+    //     student.name.toLowerCase().includes(search.toLowerCase())
+    // );
 
     return (
         <div>
@@ -56,10 +68,11 @@ const StudentTable = () => {
                         className="shadow appearance-none border rounded w-80 py-2 pl-10 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
                         type="text"
-                        value={search}
+                        // value={search}
                         placeholder="search by name / id / ph. number"
                         onChange={handleSearch}
                     />
+
                 </form>
 
             </div>
@@ -95,7 +108,7 @@ const StudentTable = () => {
                     </thead>
                     <tbody>
                         {
-                            filteredStudents.map((data, index) => (
+                            input.length > 0 ? input.map((data, index) => (
                                 <tr className=" dark:border-gray-700" key={data._id}>
                                     <td className="px-6 py-4">
                                         {index + 1}
@@ -124,6 +137,7 @@ const StudentTable = () => {
                                     </td>
                                 </tr>
                             ))
+                                :<h1 className='text-red-400 text-xl'>chim dabak dum dum</h1>
                         }
                     </tbody>
                 </table>

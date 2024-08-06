@@ -1,3 +1,4 @@
+const student = require('../models/student.model')
 const Student = require('../models/student.model')
 
 
@@ -11,18 +12,36 @@ exports.createstudent = async (req, res) => {
     }
 }
 
-
-
 //api to get all students
 exports.getallstudents = async (req, res) => {
-    const { gender } = req.query;
-    const queryObject = {};
-    if (gender) {
-        queryObject.name = { $regex: gender, $options: 'i' }
-    }
-    const all_students = await Student.find(queryObject);
+    const all_students = await Student.find();
     res.status(200).json(all_students); // Consistent JSON response
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//api to get any students
+
+exports.getanystudents = async (req, res) => {
+    try {
+        const searchKey = req.params.key;
+        const result = await Student.find({
+            "$or": [
+                { name: { $regex: searchKey, $options: "i" } },
+                { $expr: { $regexMatch: { input: { $toString: "$contact" }, regex: searchKey } } }]
+        });
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: error.message
+        });
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 //api to get one student by name
 exports.getonestudent = async (req, res) => {
