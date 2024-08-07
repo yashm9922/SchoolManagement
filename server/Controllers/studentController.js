@@ -14,8 +14,16 @@ exports.createstudent = async (req, res) => {
 
 //api to get all students
 exports.getallstudents = async (req, res) => {
-    const all_students = await Student.find();
-    res.status(200).json(all_students); // Consistent JSON response
+    // const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    // const skip = (page - 1) * limit;
+    const skip = parseInt(req.query.skip) || 0;
+    const page = Math.floor(skip / limit) + 1;
+    const all_students = await Student.find().skip(skip).limit(limit);
+    // console.log('page:', page);
+    res.json({
+         all_students,page
+    }); // Consistent JSON response
 }
 
 

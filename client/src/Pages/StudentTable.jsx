@@ -8,20 +8,23 @@ const StudentTable = () => {
     const [input, setInput] = useState([])
     const [deletedID, setDeletedID] = useState(null)
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
 
-    const fecthdata = async () => {
+    const fecthdata = async (page) => {
+
         try {
-            const response = await instance.get('getall')
-            setInput(response.data);
+            const response = await instance.get(`getall?page=${page}`);
+            setInput(response.data.all_students);
+            setPage(response.data.page)
         }
         catch (error) {
             console.log("Error Fetching Data", error)
         }
     };
     useEffect(() => {
-        fecthdata();
-    }, [deletedID])
+        fecthdata(page);
+    }, [deletedID, page])
     //here deleted id is passed to re-fetch with deleted id 
 
     const handleDelete = async (id) => {
@@ -58,7 +61,7 @@ const StudentTable = () => {
 
     return (
         <div>
-            <div className='pt-10 flex justify-center'>
+            <div className='pt-5 flex justify-center'>
                 <Link to={"/addstudent"} type="button" className="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2  dark:bg-green-600 dark:hover:bg-green-700 ">Add Student</Link>
                 <form className="ml-4 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" width="1em" height="1em" viewBox="0 0 24 24">
@@ -76,7 +79,7 @@ const StudentTable = () => {
                 </form>
 
             </div>
-            <div className="flex justify-center pt-10">
+            <div className="flex justify-center pt-5">
                 <table className="text-sm border rounded-sm">
                     <thead className="text-xs border text-gray-700 uppercase  dark:text-gray-400">
                         <tr>
@@ -110,34 +113,36 @@ const StudentTable = () => {
                         {
                             input.length > 0 ? input.map((data, index) => (
                                 <tr className=" dark:border-gray-700" key={data._id}>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         {index + 1}
                                     </td>
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <th scope="row" className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {data.name}
                                     </th>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         {data.gender}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         {new Date(data.dob).toLocaleDateString()}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         {data.contact}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         {data.feesPaid}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         {data.classname}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-2">
                                         <button type="button" onClick={() => handleDelete(data._id)} className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Delete</button>
                                         <Link to={"updatestudent/" + data._id} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"  >Update</Link>
                                     </td>
                                 </tr>
                             ))
-                                :<h1 className='text-red-400 text-xl'>chim dabak dum dum</h1>
+                                : <tr>
+                                    <th className='text-red-400 text-xl text-center'>chim dabak dum dum</th>
+                                </tr>
                         }
                     </tbody>
                 </table>

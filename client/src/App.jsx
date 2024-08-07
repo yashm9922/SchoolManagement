@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold pt-5">
+      <h1 className="text-3xl font-bold pt-2">
         School Management
       </h1 >
       <Routes>
