@@ -2,29 +2,31 @@ import { React, useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import StudentUdForm from './StudentUdForm'
+import Pagination from '../Components/Pagination'
 
 const StudentTable = () => {
 
     const [input, setInput] = useState([])
     const [deletedID, setDeletedID] = useState(null)
     const navigate = useNavigate();
-    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const instance = axios.create({ baseURL: 'http://localhost:3000/api/student/' });
 
     const fecthdata = async (page) => {
 
         try {
-            const response = await instance.get(`getall?page=${page}`);
+            const response = await instance.get(`getall?page=${currentPage}`);
             setInput(response.data.all_students);
-            setPage(response.data.page)
+            setTotalPages(response.data.pageCount);
         }
         catch (error) {
             console.log("Error Fetching Data", error)
         }
     };
     useEffect(() => {
-        fecthdata(page);
-    }, [deletedID, page])
+        fecthdata(currentPage);
+    }, [deletedID, currentPage])
     //here deleted id is passed to re-fetch with deleted id 
 
     const handleDelete = async (id) => {
@@ -58,9 +60,27 @@ const StudentTable = () => {
     // const filteredStudents = input.filter(student =>
     //     student.name.toLowerCase().includes(search.toLowerCase())
     // );
+    
+    // const handlePrevious = () => {
+    //     setPage(() => {
+    //         if (page === 1) return page
+    //         return page - 1
+    //     })
+    // }
+
+    // const hanldeNext = () => {
+    //     setPage(() => {
+    //         if (page === page) return page;
+    //         return page + 1;
+    //     })
+    // }
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
-        <div>
+        <div className=''>
             <div className='pt-5 flex justify-center'>
                 <Link to={"/addstudent"} type="button" className="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2  dark:bg-green-600 dark:hover:bg-green-700 ">Add Student</Link>
                 <form className="ml-4 relative">
@@ -79,7 +99,7 @@ const StudentTable = () => {
                 </form>
 
             </div>
-            <div className="flex justify-center pt-5">
+            <div className="flex justify-center pt-4">
                 <table className="text-sm border rounded-sm">
                     <thead className="text-xs border text-gray-700 uppercase  dark:text-gray-400">
                         <tr>
@@ -114,7 +134,7 @@ const StudentTable = () => {
                             input.length > 0 ? input.map((data, index) => (
                                 <tr className=" dark:border-gray-700" key={data._id}>
                                     <td className="px-6 py-2">
-                                        {index + 1}
+                                        {index + 1 +(currentPage - 1) * 10}
                                     </td>
                                     <th scope="row" className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {data.name}
@@ -146,6 +166,10 @@ const StudentTable = () => {
                         }
                     </tbody>
                 </table>
+            </div>
+            <div className='flex justify-center pt-4'>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+
             </div>
         </div>
     )

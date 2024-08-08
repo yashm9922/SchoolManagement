@@ -14,15 +14,16 @@ exports.createstudent = async (req, res) => {
 
 //api to get all students
 exports.getallstudents = async (req, res) => {
-    // const page = parseInt(req.query.page) || 1;
+    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    // const skip = (page - 1) * limit;
-    const skip = parseInt(req.query.skip) || 0;
-    const page = Math.floor(skip / limit) + 1;
+    const skip = (page - 1) * limit;
+    // const skip = parseInt(req.query.skip) || 0;
     const all_students = await Student.find().skip(skip).limit(limit);
+    const total = await Student.countDocuments();
+    const pageCount = Math.floor(total / limit);
     // console.log('page:', page);
     res.json({
-         all_students,page
+        all_students, page, pageCount
     }); // Consistent JSON response
 }
 
