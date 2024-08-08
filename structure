@@ -28,9 +28,17 @@ server/
 
 
 Completed Things :
-1. backend apis
+(student)
+1. backend apis(CRUD)
 2. mongodb setup
 3. front end tables
+4. search data
+5. pagination
+
+To Do Things :
+1. Authentication, Token 
+2. Dashboard
+3. Admin Panel
 
 -----------------------**********************************-----------------------------
 apis => 
@@ -44,9 +52,6 @@ get       -- http://localhost:3000/api/student/shubham%20Jadhav
 getAll    -- http://localhost:3000/api/student/getall
 deleteAll -- http://localhost:3000/api/student/deleteall
 --------------------------------------------------------------------------------------
-
-
-
 Update Form 
 
 adding student
