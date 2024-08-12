@@ -3,6 +3,7 @@ import StudentForm from './Pages/StudentForm'
 // import StudentForm2 from './Pages/StudentForm2'
 import StudentTable from './Pages/StudentTable'
 import StudentUdForm from './Pages/StudentUdForm'
+import TeacherForm from './Pages/TeacherForm'
 import { Routes, Route } from 'react-router-dom'
 function App() {
 
@@ -12,7 +13,10 @@ function App() {
         School Management
       </h1 >
       <Routes>
-        <Route path='/' element={<StudentTable />} />
+        {/* <Route path='/teachers' element={<TeacherTable />} /> */}
+         <Route path='/addteacher' element={<TeacherForm />}></Route>
+        {/* <Route path='/updateteacher/:id' element={<TeacherUdForm />}></Route> */ }
+        <Route path='/students' element={<StudentTable />} />
         <Route path='/addstudent' element={<StudentForm />}></Route>
         <Route path='/updatestudent/:id' element={<StudentUdForm />}></Route>
         {/* <Route path='/2' element={ <StudentForm2 /> }/> */}
