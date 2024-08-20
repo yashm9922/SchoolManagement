@@ -12,11 +12,10 @@ const StudentForm = () => {
     const [feesPaid, setFeespaid] = useState('')
     const [classname, setClassname] = useState('')
     //may be cant use class and setClass usestate names here
-    
+      
     const navigate = useNavigate();
 
     const [updatingstudent, setUpdatingStudent] = useState(null)
-
 
     const handleSubmit = async (e) => {
 

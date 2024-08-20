@@ -4,7 +4,9 @@ import StudentForm from './Pages/StudentForm'
 import StudentTable from './Pages/StudentTable'
 import StudentUdForm from './Pages/StudentUdForm'
 import TeacherForm from './Pages/TeacherForm'
+import Dashboard from './Pages/Dashboard'
 import { Routes, Route } from 'react-router-dom'
+
 function App() {
 
   return (
@@ -13,7 +15,7 @@ function App() {
         School Management
       </h1 >
       <Routes>
-        {/* <Route path='/teachers' element={<TeacherTable />} /> */}
+        <Route path='/' element={<Dashboard />} />
          <Route path='/addteacher' element={<TeacherForm />}></Route>
         {/* <Route path='/updateteacher/:id' element={<TeacherUdForm />}></Route> */ }
         <Route path='/students' element={<StudentTable />} />
