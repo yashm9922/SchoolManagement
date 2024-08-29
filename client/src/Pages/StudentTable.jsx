@@ -60,7 +60,7 @@ const StudentTable = () => {
     // const filteredStudents = input.filter(student =>
     //     student.name.toLowerCase().includes(search.toLowerCase())
     // );
-    
+
     // const handlePrevious = () => {
     //     setPage(() => {
     //         if (page === 1) return page
@@ -134,7 +134,7 @@ const StudentTable = () => {
                             input.length > 0 ? input.map((data, index) => (
                                 <tr className=" dark:border-gray-700" key={data._id}>
                                     <td className="px-6 py-2">
-                                        {index + 1 +(currentPage - 1) * 10}
+                                        {index + 1 + (currentPage - 1) * 10}
                                     </td>
                                     <th scope="row" className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {data.name}
@@ -167,11 +167,13 @@ const StudentTable = () => {
                     </tbody>
                 </table>
             </div>
+
             <div className='flex justify-center pt-4'>
                 <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-
             </div>
+
         </div>
+
     )
 }
 

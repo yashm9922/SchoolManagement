@@ -2,6 +2,7 @@ import './App.css'
 import StudentForm from './Pages/StudentForm'
 // import StudentForm2 from './Pages/StudentForm2'
 import StudentTable from './Pages/StudentTable'
+import StudentTable2 from './Pages/StudentTable2'
 import StudentUdForm from './Pages/StudentUdForm'
 import TeacherForm from './Pages/TeacherForm'
 import Dashboard from './Pages/Dashboard'
@@ -19,6 +20,7 @@ function App() {
          <Route path='/addteacher' element={<TeacherForm />}></Route>
         {/* <Route path='/updateteacher/:id' element={<TeacherUdForm />}></Route> */ }
         <Route path='/students' element={<StudentTable />} />
+        <Route path='/students2' element={<StudentTable2 />} />
         <Route path='/addstudent' element={<StudentForm />}></Route>
         <Route path='/updatestudent/:id' element={<StudentUdForm />}></Route>
         {/* <Route path='/2' element={ <StudentForm2 /> }/> */}
